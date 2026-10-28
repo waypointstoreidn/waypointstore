@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waypoint Indonesia Store - Track Order</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --primary: #0b3d5c;
+            --primary-mid: #1565a0;
+            --primary-light: #1e88c8;
+            --secondary: #0d9488;
+            --accent: #f97316;
+            --dark: #0f172a;
+            --light-bg: #f1f5f9;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+            --radius: 14px;
+            --radius-sm: 10px;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: -0.011em;
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(180deg, rgba(11, 61, 92, 0.75) 0%, rgba(15, 23, 42, 0.85) 100%), url('belmon.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--dark);
+            line-height: 1.55;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+        
+        .nav-link-item {
+            font-weight: 600;
+        }
+        
+        .cat-btn,
+        .btn-tambah,
+        .btn-kirim,
+        .cart-badge-btn {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 600;
+        }
+        
+        label {
+            font-weight: 600;
+        }
+        
+        .top-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .brand-logo {
+            height: 68px;
+            width: auto;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-link-item {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 400;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: all 0.25s ease;
+        }
+        
+        .nav-link-item:hover {
+            color: var(--primary);
+            background: rgba(15, 98, 160, 0.08);
+        }
+        
+        .nav-link-item.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
+            color: #ffffff;
+        }
+        
+        .cart-badge-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+        
+        .cart-badge-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .cart-custom-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            display: block;
+        }
+        
+        .cart-count-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--accent);
+            color: #ffffff;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 11px;
+            font-weight: bold;
+            line-height: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 40px auto 50px;
+            padding: 0 20px;
+        }
+        
+        .tracking-card {
+            background: var(--card-bg);
+            padding: 32px 28px;
+            border-radius: 18px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .tracking-card h2 {
+            margin: 0 0 6px 0;
+            text-align: center;
+            color: var(--primary);
+            font-size: 22px;
+            font-weight: 400;
+        }
+        
+        .tracking-card .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 400;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 18px;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            box-sizing: border-box;
+            font-size: 14px;
+            background: #f8fafc;
+            color: var(--dark);
+            transition: all 0.2s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary-mid);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(21, 101, 160, 0.12);
+        }
+        
+        .btn-track {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(11, 61, 92, 0.3);
+            transition: all 0.25s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        
+        .btn-track:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(11, 61, 92, 0.4);
+            filter: brightness(1.06);
+        }
+        
+        .result-box {
+            margin-top: 24px;
+            display: none;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+        }
+        
+        .result-box.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 13.5px;
+        }
+        
+        .result-row .label {
+            color: var(--text-muted);
+        }
+        
+        .result-row .value {
+            color: var(--dark);
+            font-weight: 400;
+            text-align: right;
+            max-width: 60%;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .status-new {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+        
+        .status-processing {
+            background: #fef3c7;
+            color: #b45309;
+        }
+        
+        .status-delivery {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+        
+        .status-delivered {
+            background: #dcfce7;
+            color: #15803d;
+        }
+        
+        .status-cancelled {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        .error-msg {
+            color: #b91c1c;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 16px;
+        }
+        
+        .loading-msg {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 16px;
+        }
+        
+        .footer-banner {
+            background-color: var(--primary);
+            color: #f8fafc;
+            padding: 24px 5%;
+            margin-top: auto;
+        }
+        
+        .footer-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .footer-col {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .footer-divider {
+            width: 1px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer-brand {
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+        
+        .footer-section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #cbd5e1;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        
+        .footer-address-text {
+            font-size: 13px;
+            color: #e2e8f0;
+            margin: 0;
+            line-height: 1.4;
+        }
+        
+        .wa-link-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background-color: #25d366;
+            border-radius: 50%;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+            text-decoration: none;
+        }
+        
+        .wa-link-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.5);
+            background-color: #20ba5a;
+        }
+        
+        .wa-link-icon svg {
+            width: 26px;
+            height: 26px;
+            fill: #ffffff;
+        }
+        
+        .footer-bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            font-size: 12px;
+            color: #94a3b8;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+        
+        @media (max-width: 680px) {
+            .top-navbar {
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: space-between;
+                padding: 10px 14px;
+            }
+            .brand-logo {
+                height: 52px;
+            }
+            .nav-links {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                border-top: 1px solid var(--border-color);
+                padding-top: 8px;
+                margin-top: 4px;
+            }
+            .container {
+                margin: 24px auto 40px;
+            }
+            .tracking-card {
+                padding: 24px 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="top-navbar">
+        <div class="brand-logo-container">
+            <img src="wplogo.webp" alt="Waypoint Store Logo" class="brand-logo">
+        </div>
+
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.htm" class="nav-link-item">Home</a></li>
+                <li><a href="menu.htm" class="nav-link-item">Menu</a></li>
+                <li><a href="order.htm" class="nav-link-item">Order</a></li>
+                <li><a href="tracking.htm" class="nav-link-item active">Track</a></li>
+                <li><a href="about.htm" class="nav-link-item">About Us</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-right-container">
+            <a href="order.htm" class="cart-badge-btn" title="View Cart">
+                <img src="cart.png" alt="Cart Icon" class="cart-custom-icon">
+                <span id="nav-cart-count" class="cart-count-badge">0</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tracking-card">
+            <h2>Track Your Order</h2>
+            <p class="subtitle">Enter the Order ID you received when placing the order.</p>
+
+            <label for="orderIdInput">Order ID</label>
+            <input type="text" id="orderIdInput" placeholder="Example: WP-180926-001" autocomplete="off">
+
+            <button class="btn-track" onclick="trackOrder()">Track Order</button>
+
+            <div id="hasilTracking" class="result-box"></div>
+        </div>
+    </div>
+
+    <footer class="footer-banner">
+        <div class="footer-top-row">
+            <div class="footer-col">
+                <div>
+                    <div class="footer-brand">WAYPOINT INDONESIA STORE</div>
+                    <div class="footer-section-title">Port Base Address</div>
+                    <p class="footer-address-text">
+                        Jl. Pelabuhan Utama No. 88, Port Area, Tanjung Priok, Jakarta Utara, 14310
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-col" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div>
+                        <div class="footer-section-title">Contact Us</div>
+                        <div style="font-size: 13px; color: #e2e8f0;">Direct WhatsApp Support</div>
+                    </div>
+                    <a href="https://api.whatsapp.com/send?phone=6285782937698&text=Hello%20Waypoint%20Store,%20I%20have%20an%20inquiry." target="_blank" class="wa-link-icon" title="Chat with Us on WhatsApp">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <div style="margin-top: 6px;">
+                    <div class="footer-section-title">Company Website</div>
+                    <a href="http://www.waypointports.com/" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 13px; font-weight: 500;">
+                        www.waypoint.com &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom-row">
+            <div class="footer-links">
+                TM & Copyright 2026 Waypoint Store Indonesia. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let keranjang = JSON.parse(localStorage.getItem('waypoint_cart')) || [];
+        let totalQty = keranjang.reduce((sum, item) => sum + (item.qty || 1), 0);
+        document.getElementById('nav-cart-count').textContent = totalQty;
+
+        const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxkCn1IZLLp46B7sKfbIPcUqhTa7y9QzIGjQtfLcmg64ogGHEQrB0OccSa0TYimLi2i/exec";
+
+        async function trackOrder() {
+            const orderId = document.getElementById('orderIdInput').value.trim();
+            const hasilDiv = document.getElementById('hasilTracking');
+            const btn = document.querySelector('.btn-track');
+
+            if (!orderId) {
+                alert('Please enter an Order ID');
+                return;
+            }
+
+            hasilDiv.classList.add('show');
+            hasilDiv.innerHTML = `
+        <div style="text-align:center; padding: 20px 0;">
+            <div style="font-size:28px; margin-bottom:10px;">⏳</div>
+            <p style="color:#64748b; margin:0;">Searching for your order...</p>
+        </div>
+    `;
+
+            if (btn) {
+                btn.disabled = true;
+                btn.innerText = 'Searching...';
+            }
+
+            try {
+                // Timeout 12 detik
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+                const res = await fetch(
+                    `${URL_SCRIPT}?action=track&orderId=${encodeURIComponent(orderId)}`, {
+                        signal: controller.signal
+                    }
+                );
+
+                clearTimeout(timeoutId);
+                const json = await res.json();
+
+                if (json.status === "success") {
+                    const d = json.data;
+                    let statusClass = "status-new";
+                    if (d.status === "Processing") statusClass = "status-processing";
+                    if (d.status === "On Delivery") statusClass = "status-delivery";
+                    if (d.status === "Delivered") statusClass = "status-delivered";
+                    if (d.status === "Cancelled") statusClass = "status-cancelled";
+
+                    hasilDiv.innerHTML = `
+                <div class="result-row">
+                    <span class="label">Order ID</span>
+                    <span class="value">${d.orderId}</span>
+                </div>
+                <div class="result-row">
+                    <span class="label">Date</span>
+                    <span class="value">${d.tanggal}</span>
+                </div>
+                <div class="result-row">
+                    <span class="label">Crew Name</span>
+                    <span class="value">${d.namaKru}</span>
+                </div>
+                <div class="result-row">
+                    <span class="label">Vessel Name</span>
+                    <span class="value">${d.namaKapal}</span>
+                </div>
+                <div class="result-row">
+                    <span class="label">Order List</span>
+                    <span class="value">${d.pesanan}</span>
+                </div>
+                <div class="result-row">
+                    <span class="label">Total</span>
+                    <span class="value">${d.total}</span>
+                </div>
+                <div class="result-row">
+                    <span class="label">Payment</span>
+                    <span class="value">${d.metode}</span>
+                </div>
+                <div class="result-row" style="margin-top:14px; margin-bottom:0;">
+                    <span class="label">Status</span>
+                    <span class="status-badge ${statusClass}">${d.status}</span>
+                </div>
+            `;
+                } else {
+                    hasilDiv.innerHTML = `<p class="error-msg">${json.message || 'Order not found'}</p>`;
+                }
+            } catch (err) {
+                if (err.name === 'AbortError') {
+                    hasilDiv.innerHTML = `<p class="error-msg">Request timed out. Please try again.</p>`;
+                } else {
+                    console.error(err);
+                    hasilDiv.innerHTML = `<p class="error-msg">Failed to fetch data. Please check your connection and try again.</p>`;
+                }
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerText = 'Track Order';
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
