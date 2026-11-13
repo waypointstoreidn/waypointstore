@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Waypoint Indonesia Store - Order Here</title>
-
-    <!-- Professional Font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -551,7 +549,9 @@
 
     <header class="top-navbar">
         <div class="brand-logo-container">
-            <img src="wplogo.webp" alt="Waypoint Store Logo" class="brand-logo">
+            <a href="index.htm">
+                <img src="wplogo.webp" alt="Waypoint Store Logo" class="brand-logo">
+            </a>
         </div>
 
         <nav>
@@ -699,7 +699,7 @@
         const HANDLING_FEE_USD = 2.00;
         const MINIMUM_ORDER_USD = 50.00;
 
-        const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxkCn1IZLLp46B7sKfbIPcUqhTa7y9QzIGjQtfLcmg64ogGHEQrB0OccSa0TYimLi2i/exec";
+        const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbwjkPOC_yDioTdGtq-D4gym4qajZzbZl-yj2lkZG7v7qOscDgWzqtAiYND9ByTsbkn9/exec";
 
         const REK_BNI_IDR = "1234567890";
         const REK_BNI_USD = "0987654321";
@@ -909,6 +909,9 @@
             const opsiPembayaran = document.querySelector('input[name="pembayaran"]:checked').value;
             const nomorWA_Dapur = "6285782937698";
 
+            localStorage.setItem('waypoint_crew_name', nama);
+            localStorage.setItem('waypoint_vessel_name', namaKapal);
+
             const grandTotalUSD = totalUSD + HANDLING_FEE_USD;
             if (grandTotalUSD < MINIMUM_ORDER_USD) {
                 alert(`Minimum order is $${MINIMUM_ORDER_USD.toFixed(2)} per vessel.`);
@@ -993,6 +996,8 @@
 
                 const formattedNotes = catatanText ? `%0A*Order Notes:* ${encodeURIComponent(catatanText)}%0A` : '';
 
+                // ... (kode sebelumnya di dalam fungsi prosesKirim tetap sama) ...
+
                 const pesan = `*WAYPOINT INDONESIA STORE ORDER*%0A%0A` +
                     `*Crew Name:* ${nama}%0A` +
                     `*Vessel Name:* ${namaKapal}%0A%0A` +
@@ -1003,7 +1008,19 @@
                     `*Payment Method:* ${metodeTampil}%0A%0A` +
                     (base64 ? `_Payment proof has been uploaded_` : `_Status: Awaiting Payment Receipt_`);
 
+                // 1. Hapus data dari Local Storage
                 localStorage.removeItem('waypoint_cart');
+
+                // 2. KOSONGKAN KERANJANG DI MEMORI & PERBARUI TAMPILAN (0 Item)
+                keranjang = [];
+                updateUI();
+
+                // 3. KOSONGKAN SEMUA KOLOM FORMULIR (Reset Input)
+                document.getElementById('nama').value = '';
+                document.getElementById('nama-kapal').value = '';
+                if (document.getElementById('catatan')) {
+                    document.getElementById('catatan').value = '';
+                }
 
                 const modalBayar = document.getElementById('modalPembayaran');
                 if (modalBayar) modalBayar.style.display = 'none';
