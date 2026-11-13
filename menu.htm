@@ -560,7 +560,9 @@
 
     <header class="top-navbar">
         <div class="brand-logo-container">
-            <img src="wplogo.webp" alt="Waypoint Store Logo" class="brand-logo">
+            <a href="index.htm">
+                <img src="wplogo.webp" alt="Waypoint Store Logo" class="brand-logo">
+            </a>
         </div>
 
         <nav>
@@ -1353,7 +1355,6 @@
         let pendingItem = null;
 
         function handleAddToCart(namaItem, hargaIDR, hargaUSD, gambar, itemId) {
-            // Ambil jumlah dari input qty
             let qty = 1;
             if (itemId) {
                 const input = document.getElementById(`qty-input-${itemId}`);
@@ -1479,7 +1480,6 @@
                 }
             });
         }
-        // Fungsi pengubah angka kuantitas input saat tombol + / - diklik
         function ubahJumlahInput(id, delta) {
             const input = document.getElementById(`qty-input-${id}`);
             if (!input) return;
@@ -1489,7 +1489,6 @@
             input.value = val;
         }
 
-        // Validasi input manual agar tidak nol atau minus
         function validasiInputQty(input) {
             let val = parseInt(input.value);
             if (isNaN(val) || val < 1) {
