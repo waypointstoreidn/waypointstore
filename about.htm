@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Waypoint Indonesia Store - About Us</title>
-
-    <!-- Professional Font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -25,6 +23,7 @@
             --border-color: #e2e8f0;
             --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
             --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
             --radius: 14px;
             --radius-sm: 10px;
         }
@@ -235,12 +234,6 @@
             box-shadow: var(--shadow-sm);
         }
         
-        .feature-icon {
-            font-size: 26px;
-            margin-bottom: 8px;
-            display: block;
-        }
-        
         .feature-item h3 {
             margin: 0 0 6px 0;
             font-size: 15px;
@@ -255,6 +248,92 @@
             color: var(--text-muted);
             line-height: 1.5;
             font-weight: 400;
+        }
+
+        /* Styling Form Kritik Saran */
+        .feedback-form-container {
+            background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 24px;
+            margin-top: 40px;
+        }
+        
+        .feedback-user-info {
+            background: #e0f2fe; 
+            border: 1px solid #bae6fd; 
+            padding: 14px; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+            font-size: 13.5px; 
+            color: #0369a1;
+            display: none; /* Disembunyikan dulu sampai terdeteksi ada data */
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feedback-form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .feedback-form-container select,
+        .feedback-form-container textarea {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            background: #ffffff;
+            color: var(--dark);
+            transition: all 0.2s;
+        }
+
+        .feedback-form-container select:focus,
+        .feedback-form-container textarea:focus {
+            outline: none;
+            border-color: var(--primary-mid);
+            box-shadow: 0 0 0 4px rgba(21, 101, 160, 0.12);
+        }
+
+        .feedback-form-container textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-submit-feedback {
+            background: linear-gradient(135deg, var(--secondary) 0%, #0f766e 100%);
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(13, 148, 136, 0.3);
+            transition: all 0.25s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-submit-feedback:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(13, 148, 136, 0.4);
+            filter: brightness(1.05);
         }
         
         .footer-banner {
@@ -396,7 +475,9 @@
 
     <header class="top-navbar">
         <div class="brand-logo-container">
-            <img src="wplogo.webp" alt="Waypoint Store Logo" class="brand-logo">
+            <a href="index.htm">
+                <img src="wplogo.webp" alt="Waypoint Store Logo" class="brand-logo">
+            </a>
         </div>
 
         <nav>
@@ -457,6 +538,43 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Form Kritik dan Saran (Feedback) Tanpa Input Nama -->
+            <div class="section-block feedback-form-container">
+                <h2>Give Us Your Feedback</h2>
+                <p style="margin-bottom: 16px;">Your thoughts matter to us! Help us improve our service by sharing your suggestions, complaints, or compliments directly with our team.</p>
+                
+                <!-- Info Crew yang Terdeteksi Otomatis -->
+                <div id="feedback-user-info" class="feedback-user-info">
+                    <span style="font-size: 20px;">👤</span> 
+                    <div>
+                        Sending feedback as: <br>
+                        <strong id="fb-display-nama"></strong> (Vessel: <strong id="fb-display-kapal"></strong>)
+                    </div>
+                </div>
+
+                <form id="feedbackForm" onsubmit="kirimFeedbackWA(event)">
+                    <label for="fb-rating">Rate Our Service:</label>
+                    <select id="fb-rating" required>
+                        <option value="5">⭐⭐⭐⭐⭐ </option>
+                        <option value="4">⭐⭐⭐⭐ </option>
+                        <option value="3">⭐⭐⭐ </option>
+                        <option value="2">⭐⭐ </option>
+                        <option value="1">⭐ </option>
+                    </select>
+
+                    <label for="fb-pesan">Your Feedback (Kritik & Saran):</label>
+                    <textarea id="fb-pesan" placeholder="Write your feedback, ideas, or complaints here..." required></textarea>
+
+                    <button type="submit" class="btn-submit-feedback">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                        </svg>
+                        Send Feedback
+                    </button>
+                </form>
+            </div>
+            
         </div>
     </div>
 
@@ -504,9 +622,63 @@
     </footer>
 
     <script>
+        // URL Google Script (Sama seperti di file order.htm)
+        const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbwjkPOC_yDioTdGtq-D4gym4qajZzbZl-yj2lkZG7v7qOscDgWzqtAiYND9ByTsbkn9/exec";
+
+        // Memuat Cart Count pada Icon Keranjang
         const keranjang = JSON.parse(localStorage.getItem('waypoint_cart')) || [];
         const totalQty = keranjang.reduce((sum, item) => sum + (item.qty || 1), 0);
         document.getElementById('nav-cart-count').textContent = totalQty;
+
+        // Ambil Data Crew dari Local Storage (Disimpan saat order)
+        const savedNama = localStorage.getItem('waypoint_crew_name') || "Customer (Unknown)";
+        const savedKapal = localStorage.getItem('waypoint_vessel_name') || "-";
+
+        // Tampilkan Identitas jika datanya ada
+        if (localStorage.getItem('waypoint_crew_name')) {
+            document.getElementById('fb-display-nama').textContent = savedNama;
+            document.getElementById('fb-display-kapal').textContent = savedKapal;
+            document.getElementById('feedback-user-info').style.display = 'flex';
+        }
+
+        function kirimFeedbackWA(event) {
+            event.preventDefault(); 
+
+            const ratingValue = document.getElementById('fb-rating').value;
+            const pesan = document.getElementById('fb-pesan').value.trim();
+            
+            const payload = {
+                jenisForm: "Feedback", 
+                tanggal: new Date().toLocaleString('en-US'),
+                nama: savedNama,
+                namaKapal: savedKapal,
+                rating: ratingValue,
+                pesanFeedback: pesan
+            };
+
+            fetch(URL_GOOGLE_SCRIPT, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            }).catch(err => console.error("Gagal menyimpan feedback ke Sheets:", err));
+
+            let bintang = "";
+            for(let i=0; i<ratingValue; i++){ bintang += "⭐"; }
+
+            const noWhatsapp = "6285782937698"; 
+            const textWA = `*CUSTOMER FEEDBACK & SUGGESTIONS*%0A%0A` +
+                           `*Crew Name:* ${encodeURIComponent(savedNama)}%0A` +
+                           `*Vessel:* ${encodeURIComponent(savedKapal)}%0A` +
+                           `*Service Rating:* ${bintang}%0A%0A` +
+                           `*Message:*%0A"${encodeURIComponent(pesan)}"`;
+
+            document.getElementById('feedbackForm').reset();
+            
+            window.open(`https://api.whatsapp.com/send?phone=${noWhatsapp}&text=${textWA}`, '_blank');
+        }
     </script>
 
 </body>
