@@ -198,7 +198,7 @@
         .cat-btn {
             background: transparent;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 18px;
             border-radius: 40px;
             cursor: pointer;
             font-weight: 400;
@@ -217,7 +217,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 20px;
-            align-items: start;
+            align-items: stretch;
         }
         
         .menu-item {
@@ -230,6 +230,10 @@
             justify-content: space-between;
             box-shadow: var(--shadow-md);
             transition: all 0.3s ease;
+        }
+
+        .menu-item.no-image {
+            border-top: 4px solid var(--primary);
         }
         
         .img-wrapper {
@@ -264,7 +268,20 @@
             border-radius: 12px;
             pointer-events: none;
         }
-        /* Styling untuk Produk Habis (Out of Stock) */
+
+        .provider-tag {
+            display: inline-block;
+            align-self: flex-start;
+            background: #eff6ff;
+            color: var(--primary);
+            border: 1px solid #bfdbfe;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            letter-spacing: 0.02em;
+        }
         
         .menu-item.out-of-stock {
             opacity: 0.75;
@@ -298,7 +315,7 @@
         }
         
         .menu-info {
-            padding: 14px;
+            padding: 16px 14px 10px 14px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -312,27 +329,27 @@
         
         .menu-price {
             color: var(--primary);
-            font-weight: 400;
+            font-weight: 700;
             margin: 0 0 10px 0;
-            font-size: 14px;
+            font-size: 14.5px;
         }
         
         .menu-ingredients {
             display: none;
             font-family: system-ui, -apple-system, sans-serif;
             font-size: 12px;
-            color: #64748b;
-            line-height: 1.4;
-            margin-top: 10px;
+            color: #475569;
+            line-height: 1.5;
+            margin-top: 8px;
             padding-top: 10px;
             border-top: 1px dashed #e2e8f0;
             animation: fadeInDown 0.25s ease-in-out forwards;
         }
         
-        .menu-ingredients.show {
+        .menu-ingredients.show,
+        .menu-ingredients.always-show {
             display: block;
         }
-        /* Quantity Selector UI - Sleek & Modern */
         
         .qty-control {
             display: flex;
@@ -401,6 +418,13 @@
             border-radius: 10px;
             font-weight: 600;
             margin-top: 8px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            cursor: pointer;
+            transition: transform 0.15s ease, background 0.2s ease;
         }
         
         @keyframes fadeInDown {
@@ -412,17 +436,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-        
-        .btn-tambah {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            cursor: pointer;
-            font-weight: 400;
-            transition: transform 0.15s ease, background 0.2s ease;
         }
         
         .btn-tambah:hover {
@@ -593,7 +606,7 @@
                 <button class="cat-btn" onclick="filterMenu('fruit', this)">Fruit</button>
                 <button class="cat-btn" onclick="filterMenu('cigarette', this)">Cigarette</button>
                 <button class="cat-btn" onclick="filterMenu('souvenir', this)">Souvenir</button>
-            </div>
+                <button class="cat-btn" onclick="filterMenu('telco', this)">Mobile Data & SIM</button>            </div>
         </div>
 
         <div class="menu-container" id="menu-list"></div>
@@ -641,6 +654,7 @@
             </div>
         </div>
     </footer>
+
     <!-- Modal Pilihan Size / Color -->
     <div id="optionModal" style="
     display: none;
@@ -1261,41 +1275,156 @@
                 ingredients: "Dry-fit UV (Sun-protective, cool, and moisture-wicking fabric).",
                 isAvailable: false
             }, {
-                id: 75,
+                id: 76,
                 nama: "Waypoint Keychain",
                 hargaIDR: 35000,
                 hargaUSD: 1.95,
                 kategori: "souvenir",
                 gambar: "keyc.png"
             }, {
-                id: 76,
+                id: 77,
                 nama: "Waypoint Cap",
                 hargaIDR: 100000,
                 hargaUSD: 5.55,
                 kategori: "souvenir",
                 gambar: "cap.png"
             }, {
-                id: 77,
+                id: 78,
                 nama: "Waypoint Ceramic Mug",
                 hargaIDR: 55000,
                 hargaUSD: 3.05,
                 kategori: "souvenir",
                 gambar: "mug.png"
             }, {
-                id: 78,
+                id: 79,
                 nama: "Waypoint Umbrella",
                 hargaIDR: 55000,
                 hargaUSD: 3.05,
                 kategori: "souvenir",
                 gambar: "umb.png"
             }, {
-                id: 79,
+                id: 80,
                 nama: "Tumbler Stainless Steel 500 Ml",
                 hargaIDR: 185000,
                 hargaUSD: 10.30,
                 kategori: "souvenir",
                 gambar: "tumb1.png",
                 ingredients: "Keeps contents hot or cold for up to 4–12 hours | SUS 304 Stainless Steel (rust-resistant) | Suitable for hot water and iced water"
+            },
+
+            // ==========================================================
+            // CATEGORY: MOBILE DATA & SIM CARD (NO IMAGE)
+            // ==========================================================
+            {
+                id: 81,
+                nama: "XL eSIM FlexMax 22GB (28 Days)",
+                hargaIDR: 62000,
+                hargaUSD: 3.45,
+                kategori: "telco",
+                badge: "XL • eSIM • Rollover Quota",
+                noImage: true,
+                gambar: "",
+                ingredients: "eSIM FlexMax 22GB | 28-Day validity | Rollover Quota feature (unused main quota carries over). Please write your email & phone number in the Order Notes."
+            }, {
+                id: 82,
+                nama: "XL eSIM FlexMax 36GB (28 Days)",
+                hargaIDR: 82000,
+                hargaUSD: 4.55,
+                kategori: "telco",
+                badge: "XL • eSIM • Rollover Quota",
+                noImage: true,
+                gambar: "",
+                ingredients: "eSIM FlexMax 36GB | 28-Day validity | Rollover Quota feature (unused main quota carries over). Please write your email & phone number in the Order Notes."
+            }, {
+                id: 83,
+                nama: "XL eSIM FlexMax 100GB (28 Days)",
+                hargaIDR: 127000,
+                hargaUSD: 7.05,
+                kategori: "telco",
+                badge: "XL • eSIM • Free Roaming in 9 Countries",
+                noImage: true,
+                gambar: "",
+                ingredients: "eSIM FlexMax 100GB | 28-Day validity | Free Roaming in 9 Countries (Most Complete). Please write your email & phone number in the Order Notes."
+            }, {
+                id: 84,
+                nama: "XL Starter SIM Card 3GB (30 Days)",
+                hargaIDR: 35000,
+                hargaUSD: 1.95,
+                kategori: "telco",
+                badge: "XL • Physical SIM Card",
+                noImage: true,
+                gambar: "",
+                ingredients: "Physical Starter SIM Card preloaded with 3GB data | 30-Day validity | Includes SIM card registration assistance upon vessel delivery."
+            }, {
+                id: 85,
+                nama: "IM3 Freedom Internet Special 60GB (30 Days)",
+                hargaIDR: 99000,
+                hargaUSD: 5.50,
+                kategori: "telco",
+                badge: "Indosat IM3 • Data Package",
+                noImage: true,
+                gambar: "",
+                ingredients: "30-Day validity | 60 GB Main Quota (2 GB/day, resets at 00:00 WIB) | Pulsa Safe | 5,000 Minutes calls to IM3 and Tri. Please write your IM3 phone number in the Order Notes."
+            }, {
+                id: 86,
+                nama: "IM3 Freedom Internet 5G 85GB (30 Days)",
+                hargaIDR: 130000,
+                hargaUSD: 7.20,
+                kategori: "telco",
+                badge: "Indosat IM3 • 5G Data",
+                noImage: true,
+                gambar: "",
+                ingredients: "30-Day validity | 55 GB Main Quota + 30 GB 5G Quota (85 GB Total) | Pulsa Safe | Unlimited calls to IM3 & Tri. Please write your IM3 phone number in the Order Notes."
+            }, {
+                id: 87,
+                nama: "IM3 Freedom Internet Special 90GB (30 Days)",
+                hargaIDR: 139000,
+                hargaUSD: 7.70,
+                kategori: "telco",
+                badge: "Indosat IM3 • Data Package",
+                noImage: true,
+                gambar: "",
+                ingredients: "30-Day validity | 90 GB Main Quota (3 GB/day, resets at 00:00 WIB) | Pulsa Safe | 5,000 Minutes calls to IM3 and Tri. Please write your IM3 phone number in the Order Notes."
+            }, {
+                id: 88,
+                nama: "XL Xtra Combo Plus 20 GB (28 Days)",
+                hargaIDR: 92000,
+                hargaUSD: 5.10,
+                kategori: "telco",
+                badge: "XL Axiata • Data Package",
+                noImage: true,
+                gambar: "",
+                ingredients: "20 GB Main Quota | Up to 3 GB App Quota | Up to 20 GB Area Quota | 30 mins calls to All Operators | WhatsApp Quota 50MB/day | 28-Day validity. Please write your XL phone number in the Order Notes."
+            }, {
+                id: 89,
+                nama: "XL Xtra Combo Plus 32 GB (28 Days)",
+                hargaIDR: 136000,
+                hargaUSD: 7.55,
+                kategori: "telco",
+                badge: "XL Axiata • Data Package",
+                noImage: true,
+                gambar: "",
+                ingredients: "30 GB Main Quota | Up to 4 GB App Quota | Up to 26 GB Area Quota | 40 mins calls to All Operators | WhatsApp Quota 50MB/day | 28-Day validity. Please write your XL phone number in the Order Notes."
+            }, {
+                id: 90,
+                nama: "XL Xtra Combo Plus 52 GB (28 Days)",
+                hargaIDR: 185500,
+                hargaUSD: 10.30,
+                kategori: "telco",
+                badge: "XL Axiata • Data Package",
+                noImage: true,
+                gambar: "",
+                ingredients: "52 GB Main Quota | Up to 7 GB App Quota | Up to 40 GB Area Quota | 60 mins calls to All Operators | WhatsApp Quota 50MB/day | 28-Day validity. Please write your XL phone number in the Order Notes."
+            }, {
+                id: 91,
+                nama: "XL Xtra Combo Plus 75 GB (28 Days)",
+                hargaIDR: 247500,
+                hargaUSD: 13.75,
+                kategori: "telco",
+                badge: "XL Axiata • Data Package",
+                noImage: true,
+                gambar: "",
+                ingredients: "72 GB Main Quota | App Quota & Area Quota included | 90 mins calls to All Operators | WhatsApp Quota 50MB/day | 28-Day validity. Please write your XL phone number in the Order Notes."
             }
         ];
 
@@ -1443,32 +1572,41 @@
                 if (item.kategori.toLowerCase() === kategori.toLowerCase()) {
                     const namaAman = item.nama.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                     const isAvailable = item.isAvailable !== false;
+                    const isNoImage = item.noImage === true || !item.gambar;
 
                     const badgeHTML = isAvailable ? '' : `<span class="stock-badge">OUT OF STOCK</span>`;
-                    const cardClass = isAvailable ? 'menu-item' : 'menu-item out-of-stock';
+                    const cardClass = `${isAvailable ? 'menu-item' : 'menu-item out-of-stock'} ${isNoImage ? 'no-image' : ''}`;
 
+                    const imageSectionHTML = isNoImage ? '' : `
+                        <div class="img-wrapper" onclick="toggleDetail(${item.id})" title="Click image to see details">
+                            ${badgeHTML}
+                            <img src="${item.gambar}" class="menu-img" alt="${item.nama}">
+                        </div>
+                    `;
+
+                    const providerBadgeHTML = item.badge ? `<span class="provider-tag">${item.badge}</span>` : '';
+                    const detailClass = isNoImage ? 'menu-ingredients always-show' : 'menu-ingredients';
+                    const detailTitle = isNoImage ? 'Benefits & Details:' : 'Ingredients / Detail:';
                     const actionHTML = isAvailable ? `
                 <div class="qty-control">
                     <button class="btn-qty" onclick="ubahJumlahInput(${item.id}, -1)">−</button>
                     <input type="number" id="qty-input-${item.id}" class="input-qty" value="1" min="1" max="99" onchange="validasiInputQty(this)">
                     <button class="btn-qty" onclick="ubahJumlahInput(${item.id}, 1)">+</button>
                 </div>
-                <button class="btn-tambah" onclick="handleAddToCart('${namaAman}', ${item.hargaIDR}, ${item.hargaUSD}, '${item.gambar}', ${item.id})">+ Add to Cart</button>
+                <button class="btn-tambah" onclick="handleAddToCart('${namaAman}', ${item.hargaIDR}, ${item.hargaUSD}, '${item.gambar || ''}', ${item.id})">+ Add to Cart</button>
             ` : `
                 <button class="btn-tambah disabled" disabled>Out of Stock</button>
             `;
 
                     container.innerHTML += `
                 <div class="${cardClass}">
-                    <div class="img-wrapper" onclick="toggleDetail(${item.id})" title="Click image to see details">
-                        ${badgeHTML}
-                        <img src="${item.gambar}" class="menu-img" alt="${item.nama}">
-                    </div>
+                    ${imageSectionHTML}
                     <div class="menu-info">
+                        ${providerBadgeHTML}
                         <h3>${item.nama}</h3>
                         <p class="menu-price">Rp ${item.hargaIDR.toLocaleString('id-ID')} ($${item.hargaUSD.toFixed(2)})</p>
-                        <div class="menu-ingredients" id="detail-${item.id}">
-                            <strong>Ingredients / Detail:</strong><br>
+                        <div class="${detailClass}" id="detail-${item.id}">
+                            <strong>${detailTitle}</strong><br>
                             ${item.ingredients || 'No description available.'}
                         </div>
                     </div>
@@ -1480,6 +1618,7 @@
                 }
             });
         }
+
         function ubahJumlahInput(id, delta) {
             const input = document.getElementById(`qty-input-${id}`);
             if (!input) return;
@@ -1530,7 +1669,6 @@
 
             localStorage.setItem('waypoint_cart', JSON.stringify(keranjang));
             updateCartCount();
-
         }
 
         const totalQtyAwal = keranjang.reduce((sum, item) => sum + (item.qty || 1), 0);
